@@ -1,11 +1,17 @@
-﻿version: "3.8"
-services:
+﻿services:
   backend:
     build: ./backend
     ports:
       - "8000:8000"
     volumes:
       - ./backend:/app
+      - ./data:/data
+    environment:
+      DATABASE_URL: postgresql+psycopg2://studybuddy:devpass@db:5432/studybuddy
+      JWT_SECRET: devsecret_change_me
+      JWT_ALG: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: "60"
+      REDIS_URL: redis://redis:6379/0
     depends_on:
       - db
       - redis
@@ -25,6 +31,19 @@ services:
     image: redis:7
     ports:
       - "6379:6379"
+
+  worker:
+    build: ./backend
+    volumes:
+      - ./backend:/app
+      - ./data:/data
+    environment:
+      DATABASE_URL: postgresql+psycopg2://studybuddy:devpass@db:5432/studybuddy
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+    command: ["rq", "worker", "-u", "redis://redis:6379/0", "ingest"]
 
 volumes:
   postgres_data:
