@@ -27,8 +27,12 @@ export default function RegisterPage() {
       await register(email, password);
       await login(email, password);
       router.replace('/search');
-    } catch (err: any) {
-      setError(err.message || 'Registration failed');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || 'Registration failed');
+      } else {
+        setError('Registration failed');
+      }
     } finally {
       setLoading(false);
     }
