@@ -7,11 +7,11 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, status
 from sqlalchemy.orm import Session
 
-from ..auth import get_current_user
-from ..db import get_db
-from ..jobs import enqueue_ingest
-from ..models import Document, User
-from ..schemas import DocumentOut
+from app.auth import get_current_user
+from app.db import get_db
+from app.jobs import enqueue_ingest
+from app.models import Document, User
+from app.schemas import DocumentOut
 
 UPLOAD_ROOT = "/data/uploads"
 
