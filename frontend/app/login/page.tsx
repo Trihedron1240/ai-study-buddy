@@ -3,6 +3,7 @@
 import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { login } from '@/lib/auth';
+import ErrorBanner from '@/components/ErrorBanner';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -46,17 +47,15 @@ export default function LoginPage() {
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="border p-2"
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="border p-2"
         />
-        {error && <p className="text-red-500">{error}</p>}
-        <button type="submit" disabled={loading} className="bg-blue-500 text-white p-2">
+        <ErrorBanner message={error} />
+        <button type="submit" disabled={loading} className="bg-blue-500 text-white">
           {loading ? 'Loading...' : 'Login'}
         </button>
       </form>

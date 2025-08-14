@@ -1,5 +1,7 @@
+import { API_URL } from '@/lib/api';
+
 export async function login(email: string, password: string): Promise<void> {
-  const res = await fetch('http://localhost:8000/auth/login', {
+  const res = await fetch(`${API_URL}/auth/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -14,7 +16,7 @@ export async function login(email: string, password: string): Promise<void> {
 }
 
 export async function register(email: string, password: string): Promise<void> {
-  const res = await fetch('http://localhost:8000/auth/register', {
+  const res = await fetch(`${API_URL}/auth/register`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

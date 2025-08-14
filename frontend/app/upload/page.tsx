@@ -2,6 +2,8 @@
 
 import { FormEvent, useState } from 'react';
 import axios, { AxiosError } from 'axios';
+import ErrorBanner from '@/components/ErrorBanner';
+import { API_URL } from '@/lib/api';
 
 export default function UploadPage() {
   const [file, setFile] = useState<File | null>(null);
@@ -25,7 +27,7 @@ export default function UploadPage() {
       const formData = new FormData();
       formData.append('file', file);
 
-      await axios.post('http://localhost:8000/documents', formData, {
+      await axios.post(`${API_URL}/documents`, formData, {
         headers: {
           Authorization: token ? `Bearer ${token}` : '',
           'Content-Type': 'multipart/form-data',
@@ -59,11 +61,11 @@ export default function UploadPage() {
         />
         {progress !== null && <p>{progress}%</p>}
         {success && <p className="text-green-500">{success}</p>}
-        {error && <p className="text-red-500">{error}</p>}
+        <ErrorBanner message={error} />
         <button
           type="submit"
           disabled={uploading}
-          className="bg-blue-500 text-white p-2"
+          className="bg-blue-500 text-white"
         >
           {uploading ? 'Uploading...' : 'Upload'}
         </button>
