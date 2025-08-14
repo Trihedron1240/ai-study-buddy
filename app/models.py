@@ -19,7 +19,7 @@ from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 
-from app.db import Base
+from db import Base
 import uuid
 
 def gen_id() -> str:
