@@ -1,5 +1,7 @@
+"""Pydantic schema definitions used by the API."""
+
 from pydantic import BaseModel, Field, EmailStr
-from typing import Optional
+from typing import Optional, List
 
 class UserCreate(BaseModel):
     email: EmailStr
@@ -26,3 +28,19 @@ class DocumentOut(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class SearchRequest(BaseModel):
+    """Request payload for the search endpoint."""
+
+    query: str
+    top_k: int = 5
+
+
+class SearchResult(BaseModel):
+    """A ranked chunk returned from a search query."""
+
+    document_id: str
+    document_title: str
+    content: str
+    score: float

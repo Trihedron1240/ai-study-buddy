@@ -1,10 +1,10 @@
 ﻿services:
   backend:
-    build: ./backend
+    build: ./app
     ports:
       - "8000:8000"
     volumes:
-      - ./backend:/app
+      - ./app:/app
       - ./data:/data
     environment:
       DATABASE_URL: postgresql+psycopg2://studybuddy:devpass@db:5432/studybuddy
@@ -33,9 +33,9 @@
       - "6379:6379"
 
   worker:
-    build: ./backend
+    build: ./app
     volumes:
-      - ./backend:/app
+      - ./app:/app
       - ./data:/data
     environment:
       DATABASE_URL: postgresql+psycopg2://studybuddy:devpass@db:5432/studybuddy

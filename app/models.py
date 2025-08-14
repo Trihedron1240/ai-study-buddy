@@ -1,7 +1,25 @@
-from sqlalchemy import Column, String, DateTime, Text, Integer, Float, ForeignKey
+"""Database models for the application.
+
+This module contains SQLAlchemy model definitions.  Only the pieces that are
+required for the current backend implementation are included.  The models are
+intentionally lightweight – fields that are not yet used by the API are left
+out to keep the example concise.
+"""
+
+from sqlalchemy import (
+    Column,
+    String,
+    DateTime,
+    Text,
+    Integer,
+    Float,
+    ForeignKey,
+)
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
-from db import Base
+
+from .db import Base
 import uuid
 
 def gen_id() -> str:
@@ -29,6 +47,24 @@ class Document(Base):
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
     user = relationship("User", back_populates="documents")
+    chunks = relationship(
+        "DocumentChunk", back_populates="document", cascade="all, delete-orphan"
+    )
+
+
+class DocumentChunk(Base):
+    """A small chunk of a document along with its vector embedding."""
+
+    __tablename__ = "document_chunks"
+
+    id = Column(String, primary_key=True, default=gen_id)
+    user_id = Column(String, ForeignKey("users.id"), index=True, nullable=False)
+    document_id = Column(String, ForeignKey("documents.id"), index=True, nullable=False)
+    content = Column(Text, nullable=False)
+    embedding = Column(JSONB, nullable=False)
+
+    document = relationship("Document", back_populates="chunks")
+
 
 # Placeholders (we'll flesh these out in later days)
 class Flashcard(Base):
