@@ -26,8 +26,12 @@ export default function LoginPage() {
       setLoading(true);
       await login(email, password);
       router.replace('/search');
-    } catch (err: any) {
-      setError(err.message || 'Login failed');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || 'Login failed');
+      } else {
+        setError('Login failed');
+      }
     } finally {
       setLoading(false);
     }
