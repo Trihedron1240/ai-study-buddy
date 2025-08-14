@@ -5,11 +5,11 @@ from typing import List
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from ..auth import get_current_user
-from ..db import get_db
-from ..embeddings import embed_text, cosine_similarity
-from ..models import Document, DocumentChunk, User
-from ..schemas import SearchRequest, SearchResult
+from app.auth import get_current_user
+from app.db import get_db
+from app.embeddings import embed_text, cosine_similarity
+from app.models import Document, DocumentChunk, User
+from app.schemas import SearchRequest, SearchResult
 
 router = APIRouter(tags=["search"])
 

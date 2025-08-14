@@ -12,9 +12,9 @@ from typing import List
 
 from sqlalchemy.orm import Session
 
-from .db import SessionLocal
-from .embeddings import embed_text
-from .models import Document, DocumentChunk
+from app.db import SessionLocal
+from app.embeddings import embed_text
+from app.models import Document, DocumentChunk
 
 
 CHUNK_SIZE = 500  # characters per chunk for our toy ingestion

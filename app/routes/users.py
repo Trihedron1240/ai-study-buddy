@@ -3,10 +3,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Form
 from sqlalchemy.orm import Session
 
-from ..db import get_db
-from ..models import User
-from ..schemas import UserCreate, UserOut, TokenOut
-from ..auth import (
+from app.db import get_db
+from app.models import User
+from app.schemas import UserCreate, UserOut, TokenOut
+from app.auth import (
     hash_password,
     verify_password,
     create_access_token,
