@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
+import ErrorBanner from '@/components/ErrorBanner';
+import { API_URL } from '@/lib/api';
 
 interface SearchResult {
   document_id: string;
@@ -23,7 +25,7 @@ export default function SearchPage() {
     try {
       const token = localStorage.getItem('token');
       const res = await axios.post<SearchResult[] | { results: SearchResult[] }>(
-        'http://localhost:8000/search',
+        `${API_URL}/search`,
         { query, top_k: 10 },
         { headers: { Authorization: token ? `Bearer ${token}` : '' } }
       );
@@ -46,18 +48,18 @@ export default function SearchPage() {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="flex-grow border p-2"
+          className="flex-grow"
           placeholder="Enter query"
         />
         <button
           onClick={handleSearch}
           disabled={loading}
-          className="bg-blue-500 text-white px-4 py-2"
+          className="bg-blue-500 text-white"
         >
           {loading ? 'Searching...' : 'Search'}
         </button>
       </div>
-      {error && <p className="text-red-500">{error}</p>}
+      <ErrorBanner message={error} />
       <ul className="space-y-4">
         {results.map((hit) => (
           <li key={hit.document_id} className="border p-2">

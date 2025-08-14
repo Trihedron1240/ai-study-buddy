@@ -3,6 +3,7 @@
 import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { login, register } from '@/lib/auth';
+import ErrorBanner from '@/components/ErrorBanner';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -47,17 +48,15 @@ export default function RegisterPage() {
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="border p-2"
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="border p-2"
         />
-        {error && <p className="text-red-500">{error}</p>}
-        <button type="submit" disabled={loading} className="bg-blue-500 text-white p-2">
+        <ErrorBanner message={error} />
+        <button type="submit" disabled={loading} className="bg-blue-500 text-white">
           {loading ? 'Loading...' : 'Register'}
         </button>
       </form>

@@ -2,6 +2,7 @@
 
 import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
+import { API_URL } from '@/lib/api';
 
 interface Document {
   id: string;
@@ -23,7 +24,7 @@ export default function DocumentsPage() {
 
   const fetchDocuments = useCallback(async () => {
     const token = localStorage.getItem('token');
-    const res = await axios.get<Document[]>('http://localhost:8000/documents', {
+    const res = await axios.get<Document[]>(`${API_URL}/documents`, {
       headers: { Authorization: token ? `Bearer ${token}` : '' },
     });
     setDocs(res.data);
@@ -37,7 +38,7 @@ export default function DocumentsPage() {
     const confirmed = window.confirm('Delete this document?');
     if (!confirmed) return;
     const token = localStorage.getItem('token');
-    await axios.delete(`http://localhost:8000/documents/${id}`, {
+    await axios.delete(`${API_URL}/documents/${id}`, {
       headers: { Authorization: token ? `Bearer ${token}` : '' },
     });
     fetchDocuments();
